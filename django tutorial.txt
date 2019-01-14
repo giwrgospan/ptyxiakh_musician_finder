@@ -1,0 +1,170 @@
+1. Δημιουργία app και πώς να εμφανίζεται η ιστοσελίδα που ζητά ο χρήστης πχ 12700/music
+
+2. Σύνδεση database με κώδικα
+	1. Εκτέλεση python manage.py migrate στο terminal. Η migrate βρίσκει τον κώδικα settings
+	στο musician_finder και ψάχνει μέχρι να βρεί το INSTALLED_APPS και βρίσκει αν υπάρχουν models 
+	για κάθε ένα app
+	2. Δημιουργία σχεδίων του database. Χρησιμοποιούμε το mοdels.py στο οποίο δηλώνουμε class,που γίνεται πίνακας 
+	με μεταβλητές που μετρέπονται σε column για την database.Κάθε κλάση πρέπει να κληρονομεί το 
+	models.Model .Αν η μεταβλητή είναι τύπου char πάντα βάζουμε max_length δλδ μεγιστο αριθμό γραμμάτων
+	πχ των ονομάτων. Στο album_logo προς το παρόν μπαίνει url (εξού και οι 1000 χαρακτήρες)
+	Δημιουργία κλάσης Song την οποία πρέπει να σχετίσουμε με την album(πχ 12 song per album)
+	[Το django δημιουργεί μια έξτρα column από μόνο του που κρατά ids για κάθε object(1,2...)]. Συνδέουμε την Song με τη Album μέσω του ForeignKey.Το on_delete=models.CASCADE
+	διαγράφει τα Songs εφόσον διαγραφεί το Album με το οποίο συνδέονται
+	3. Όποτε κάνουμε μια app την προσθέτουμε στα INSTALLED_APPS με τον εξής τρόπο:
+	'όνομα_app.apps.όνομα_appConfig',
+	Με την python manage.py makemigrations music_up_down_load κάνουμε τα νέα migrations δλδ τις αλλαγές στην db (Album, Song)
+	Με την python manage.py sqlmigrate music_up_down_load 0001 κάνουμε τα παραπάνω migrations, πίνακες sql
+	Για να κάνουμε syc την νέα db με τον κώδικα εκτελούμε πάλι την python manage.py migrate
+	
+	Συνοπτικά , όποτε κάνω αλλαγή στην db ακολουθώ 3 βήματα:
+		1 Αλλάζω κώδικα
+		2 makemigrations music_up_down_load
+		3 migrate
+		4 κάνω restart τον server
+
+3. Django Shell
+
+	1. Η python manage.py shell ανοίγει την django API shell. Για να κάνω import τα models 
+	που έφτιαξα εκτελώ from music_up_down_load.models import Album,Song. ΓΙα να δώ τι έχει 
+	κάποιο model πχ το Album εκτελώ Album.objects.all(). Βάζω τιμές στα columns μέσω μιας μεταβλητής
+	με τον εξής τρόπο. a = Album(artist = "Nick Cave" κλπ) ή a.artist = "Nick Cave" αφού κάνω a =  Album. Έτσι το object αυτό είναι αποθηκευμένο 
+	στο shell και για να τα περάσω στην db κάνω a.save(). a.artist βγάζει Nick Cave κλπ
+	Για να εμφανίζει η Album.objects.all() λεπτομέριες που θέλουμε(αλλιώς βγάζει μόνο object (1) (2) κλπ)
+	βάζουμε την κλάση Album  def __str__(self)
+	2. Filtering Database Results: πχ Album.objects.filter(artist='Nick Cave') εμφανίζει το object με artist Nick Cave
+	ή άλλος τρόπος ώστε να μη γράφουμε συγκεκριμένα : Album.objects.filter(artist__startswith='Taylor')
+
+4. Admin 
+	1. Με την python manage.py createsuperuser φτιάχνουμε admin profile κσι μπορούμε να χρησιμοποιήσουμε την admin site
+	 Στην admin.py  βάζουμε from .models import Album και admin.site.register(Album) ώστε το Album
+	να εμφανίζετε στο admin site για να το επεξεργαστούμε πιο εύκολα
+
+5.New View
+	1. Θέλουμε στην ιστοσελίδα /music να εμφανίζεται λιστα με ALbums. Αν κάνουμε κλίκ σε κάποιο
+	να μας πηγαίνει σε άλλο view με details.
+	Στην urls.py: re_path(r'^(?P<album_id>[0-9]+)$'), αν βρεθεί αυτό το pattern ([0-9]+)
+	κάντο connect με την view function details(). Θέλουμε να εμφανίζει τα column του Album οπότε
+	πρέπει να τη συνδέσουμε(την details) με την database. 
+	2. Σύνδεση με το databsase . Κάνουμε import το Album στο views.py. Εκχωρούμε τα results της
+	κλήσης του database στην μεταβλητή all_albums=Album.objects.all() Την objects την ορίσαμε
+	στο models (objects=models.Manager()). Για κάθε item στον Album ορίζουμε url και
+	τα αντίστοιχα links.
+
+6. Δημιουργία html κώδικα ξεχωριστά από τον python κώδικα
+	1. Βάζουμε from django.template import loader. Θα κάνουμε ξεχωριστό αρχείο το template και μετά
+	θα το φορτώσουμε
+	2. Φτιάχνουμε φάκελο στο m_u_d_l ονόματι templates και υποφάκελό τού m_u_d_l και μέσα
+	σαυτόν html αρχείο index για το homepage και το περνάμε στην μεταβλητή template ως εξής
+	template = loader.get_template('music_up_down_load/index.html'). Για να βάλουμε το περιεχόμενο
+	του all_albums στο template το κάνουμε μέσω ενός dictionary(context ή επεξηγηματικά information the template needs)
+	και ως HttpResponse βάζουμε template.render(context, request)
+	3. Αλλιώς κάνουμε render. Aρχικά βάζουμε from django.shortcuts import render. 
+	Μετά στο return βάζουμε  render(request, 'index.html'( δλδ το όνομα του html αρχείου. Το path για τα templates το ορίσαμε 
+	στο  'DIRS': [os.path.join(BASE_DIR, 'templates')], ), context(information the template needs(δλδ το database))
+
+7. Δημιουργία http error 404 ώστε να μη εμφανίζονται σελίδες που δεν υπάρχουν(πχ album με id 43)
+	1.Βάζουμε from django.http import Http404.Δημιουργία detail.html που θα εισαχθεί στο view
+	detail. θέλουμε πρώτα να τσεκάρει αν υπάρχει το id που ζητά ο χρήστης και μετά να εμφανίζει
+	το details.html αλλιώς εμφανίζει error 404.
+	    try:
+        	album = Album.objects.get(id=album_id) // στο album εκχωρείται το album με id album_id
+   	    except Album.DoesNotExist: //αν δεν υπάρχει το id τότε δεν υπάρχει το album άρα εμφανίζουμε error
+       		 raise Http404("Album does not exist")
+    	    return render(request, 'details.html', {'album': album})//αν υπάρχει εμφανίζουμε το details.html
+	2. Αλλιώς προσθέτουμε δίπλα στο render το get_object_or_404 και γράφουμε
+		def details(request, album_id):
+   			album = get_object_or_404(Album, pk=album_id)
+    			return render(request, 'details.html', {'album': album})
+8. Προσθήκη τραγουδιών
+	1.Περνάμε το Song στο admin site. 
+	[δεν χρειάζεται να κάνουμε Migrations διότι δεν προσθέσαμε ή αφαιρέσαμε columns, κάναμε απλά ένα def__str...]
+	2.Συνδέουμε ένα song με ένα album ως εξής: 
+		1. album1 = Album.objects.get(id=1) // βάζουμε στην album το album(δλδ ότι εμφανίζει στο self) με id 1
+		2. s.album = album1 // 
+		3. s.song_title κλπ
+		4. s.save() και μετά τσεκάρουμε admin site
+
+	3. ’λλος τρόπος.Εφόσον το Album συνδέεται με το Song μέσω ενός foreingKey,
+	 τότε έχουμε πρόσβαση στα song που αντιστιχεί σε κάποιο album (πχ το song
+	 που αντιστοιχεί στο album1)mέσω του set.Γράφουμε στο shell: album1.song_set.all()
+	Για να περάσουμε κατευθείαν ένα νέο song που να αντιστοιχεί στο album1(χωρίς να κάνουμε
+	τη διαδικασία όπως το 2.) χρησιμοποιούμε την create ως εξής: 
+	album1.song_set.create( [εδω μπαίνουν όλα τα attributes εκτός από αυτό που έχει το foreignKey
+	το reference έχει γίνει ήδη μέσω του album1] song_tile = 'I love rnroll', κλπ..)
+	Μπορώ να περάσω την παραπάνω φραμμή κώδικα σε μια μεταβλητή(πχ s) και να κάνω
+	s.song_title,s.album κλπ για το συγκεκριμένο song. Αν θέλωνα μετρήσω τα songs του 
+	album1 τότε κάνω  album1.song_set.count()
+
+9. Μετατροπή HardCoded url(όπως το /music) σε dynamic (δλδ αν θέλουμε αλλάξουμε το όνομα του url /music να γίνεται update για όλα τα templates )
+	Θέλουμε το Pattern να βρίσκεται μέσω του name του και όχι του ίδιου του pattern στο html αρχείο
+	1. re_path(r'^(?P<album_id>[0-9]+)/$', views.details, name='details'), 
+	το name αναφέρεται στο /music/71(ένα id) pattern. 
+	Στο music_up_down_load/urls.py προσθέτουμε app_name = 'music_up_down_load'
+	και στο index.html αντικαθηστούμε το <a href="/music/{{ album.id }}/">
+	με <a href="{% url 'music_up_down_load:details' album.id %}/">
+΄	ώστε το site να ξέρει ότι θέλουμε το details από το συγκεριμένο app
+
+10. Προσθήκη δυνατότητας is_favorite στα songs
+	1. Προσθήκη is_favorite = models.BooleanField(default=False) ώστε τα τραγουδια ως default 
+	να μην είναι favorite
+	Μερικές φορές τα url δεν πρέπι απλά να εμφανίζουν ένα view αλλά να χρησιμοποιούν και κάποια 
+	λογική.( πχ στην περίπτωση του logout γίνεται redirect στην home_page)Έτσι, όποτε επικαλούμαστε 
+	το /music/(album_id)/favorite url θα γίνεται redirect στη ίδια σελίδα
+	Μόλις κάνουμε ένα song is_favorite το site βρίσκει το song μέσω του id του song και
+	το περνά στο /music/(album_id)/favorite url .Εκεί το  is_favorite του song γίνεται true
+	και μετά γίνεται redirect στο /music/(album_id).(συνέχεια στο 11)
+
+11. Προσθήκη form στο template
+	1. Αντί για λίστα , τα τραγούδια θα εμφανίζονται σε form με κανόνες που έχουμε ορίσει
+	(πχ at least 4 characters κλπ)Για αυτό βάζουμε ένα δικό μας error message ως εξής:
+	{%if error_message%} //
+    		<p><strong>{{ error_message }}</strong></p>
+	{% endif %}
+	Κατασκευή form: 
+	<form action="{% url 'music_up_down_load:details' album.id %}" method = "post"> //action = σε ποια url θα στέλνονται τα data που εισάγονται
+    		{% csrf_token %} // για ασφάλεια
+		{% for song in album.song_set.all %}
+        		<input type="button" id="song{{ forloop.counter }}" name="song" value="song.id"> // Το forloop κάθε φορά που εισάγεται ένα song μετρά 1,2, κλπ και δίνει στο id τον αντίστοιχο αριθμό
+    			// value = song.id πάρε το id από το song που επιλέχθηκε και μέσω αυτού βρές στο στην db και κάνε τις παρακάτω αλλαγές 
+			<label for="song{{ forloop.counter }}"> //βάζουμε το ίδιο id με input ώστε το κάθε input να αντιστοιχεί στο label με το ίδιο id
+			// Το label εμφανίζει την λίστα με τα τραγούδια στην σελίδα, εξού και το {{ song.song_title }}
+            		{{ song.song_title }}
+            		{% if song.is_favorite %}// αν το song.is_favorite γίνει true προσθείτεται η παρακάτω εικόνα δίπλα στο αντίστοιχο τραγούδι
+             		   <img src="https://i.stack.imgur.com/LQk8v.png"height="50" width="50" />
+           		{% endif %}
+       			</label><br>
+		{% endfor %}
+	<input type="submit" value="Favorite" /> //όταν ο χρήστης κανει submit τα παραπάνω δεδομένα
+	// (δλδ αυτά που έγιναν favorite) στέλνονται στην διέυθηνση του form {% url 'music_up_down_load:details' album.id %}															
+	</form>
+
+
+12. Favorite view
+	1. Εισάγουμε το Song στο views.py.   
+	album = get_object_or_404(Album, pk=album_id)
+    	try:
+           selected_song = album.song_set.get(pk=request.POST['song'])//πάρε το song που έχει id την value από την song(η οποία έχει οριστεί να είναι η song.id στην form) που επιλέχθηκε
+   	except (KeyError, Song.DoesNotExist):
+      	   return render(request, 'details.html', {'album': album, 'error_message': "You did not select a valid song"})
+	   // κάνε redirect στην details αλλά πρόσθεσε και error_message εκεί που είναι το <p><strong>{{ error_message }}</strong></p>
+        else:
+     	   selected_song.is_favorite = True //αν υπάρχι το song με id Που έκανε post ο χρήστης κάνε το is_favorite True
+      	   selected_song.save() //save στην db
+      	   return render(request, 'details.html', {'album': album}) //κάνε redirect στην details. Πλέον η details καλείται με 
+		την is_favorite να είναι true οπότε προσθείτεται το αστέρι  <img src="https://i.stack.imgur.com/LQk8v.png"height="50" width="50" />
+
+
+
+
+13. User model
+	1. Φτιάχνουμε app users . Θα χρησιμοποιήσουμε την AbstractUser που είναι υποκλάση της AbstractBaseUser
+	Συνοπτικά κάνουμε 4 βήματα:	
+		1.update settings.py :Προσθέτουμε   'users.apps.UsersConfig', και AUTH_USER_MODEL = 'users.CustomUser' # new
+		2.create a new User model :Προσθέτουμε το user Model με τα fields που θέλουμε 
+		3.create new UserCreation and UserChangeForm :Προσθέτουμε forms.py αρχείο
+		στο users app και βάζουμε τον αντίστοιχο κώδικα (UserCreation  κλπ)
+		4.update the admin :Προσθέτουμε τον αντίστοιχο κώδικα στο admin.py ώστε το 
+		admin system να γνωρίζει ότι άλλαξε το default user model
+		Προσθέτουμε LOGOUT_REDIRECT_URL = '/'(ή όποου αλλού θέλουμε να πηγαίνει μετά το logout.Δεν βάζουμε LOGIN_REDIRECT_URL διότι το έχουμε βάλει )
+	μετά φτιάχνουμε τις forms κια βάζουμε τα url και τα views
