@@ -28,13 +28,4 @@ class Song(models.Model):
         return self.song_title
 
 
-class User1(models.Model):
-    Name = models.CharField(max_length=250)
-    Surname = models.CharField(max_length=250)
-    Username = models.CharField(max_length=250)
-    Password = models.CharField(max_length=250)
-    Email = models.CharField(max_length=250)
-    users = models.Manager()
 
-    def __str__(self):
-        return self.Username

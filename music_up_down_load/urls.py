@@ -11,7 +11,6 @@ app_name = 'music_up_down_load'
 urlpatterns = [
     path('', views.index, name='index'),
     re_path(r'^(?P<album_id>[0-9]+)$', views.details, name='details'),
-    re_path(r'^register/$', views.User1FormView.as_view(), name='register'),
     re_path(r'^(?P<album_id>[0-9]+)/favorite$', views.favorite, name='favorite'),
     re_path(r'^album-add$', views.AlbumCreate.as_view(), name='album-add'),
 

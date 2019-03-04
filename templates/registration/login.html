@@ -1,13 +1,16 @@
-<!-- templates/registration/login.html -->
 {% extends 'base.html' %}
 
-{% block title %}Login{% endblock %}
 
-{% block content %}
-<h2>Login</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Login</button>
-</form>
-{% endblock %}
+    {% block content %}
+    <form method="post">
+        <h4>Καλώς ήλθατε στην εφαρμογή musician finder!</h4>
+        <h4>  Συμπληρώστε τα παρακάτω στοιχεία για να συνδεθείτε</h4>
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Σύνδεση</button> <br><br><br>
+        <a href="{% url 'users_core:signup' %}">Δεν έχετε λογαριασμό? Κάντε κλικ εδώ για να κάνετε εγγραφή!</a>
+
+         <button type="submit">Login</button>
+    </form>
+
+    {% endblock %}
