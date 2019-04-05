@@ -2,11 +2,33 @@
 {% extends 'base.html' %}
 
 {% block title %}Home Page{% endblock %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
 {% block content %}
 <h1>Home</h1>
 <br>
-<h3>No users</h3>
+{% if user.is_authenticated %}
+
+
+  <div class="content-section">
+    <div class="media">
+      <br>
+      <img  src="{{ user.profile.image.url }}" width="200" height="150"/>
+      <div class="media-body">
+        <h2 class="account-heading">{{ user.username }}</h2>
+        <p class="text-secondary">{{ user.email }}</p>
+      </div>
+    </div>
+    <a href="{% url 'music_up_down_load:index' %}">Albums</a>
+    <br>
+    <p><a href="{% url 'logout' %}">logout</a></p>
+    <p><a href="{% url 'profile' %}">profile</a></p>
+                  <!-- FORM HERE -->
+  </div>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">login</a>
+{% endif %}
+
 <br>
-<a href="{% url 'music_up_down_load:index' %}">Albums</a>
+
 {% endblock %}
