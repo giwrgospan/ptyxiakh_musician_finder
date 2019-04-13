@@ -1,10 +1,11 @@
 from django.contrib.auth import login, authenticate
 from .forms import SignUpForm
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import UserUpdateForm, ProfileUpdateForm
+from .forms import UserUpdateForm, ProfileUpdateForm, SongForm
 from django.core.files.storage import FileSystemStorage
+from .models import Profile, User
 
 
 def signup(request):
@@ -23,7 +24,7 @@ def signup(request):
 
 
 @login_required
-def profile(request):
+def profile(request , profile_id):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
@@ -39,11 +40,13 @@ def profile(request):
     context = {
 
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+
      }
     return render(request, 'profile.html', context)
 
 
+@login_required
 def upload(request):
     context = {}
     if request.method == 'POST':
@@ -51,7 +54,27 @@ def upload(request):
         fs = FileSystemStorage()
         name = fs.save(uploaded_file.name, uploaded_file)
         context['url'] = fs.url(name)
-    return render(request, 'upload.html', context )
+        return redirect('song_list')
+    return render(request, 'upload.html', context)
+
+
+@login_required
+def composition_list(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    return render(request, 'song_list.html', {'user': user})
+
+
+@login_required
+def upload_song(request ,user_id):
+    if request.method == 'POST':
+        form = SongForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('song_list')
+    else:
+        form = SongForm()
+    return render(request, 'upload_song.html', {'form': form})
+
 
 
 

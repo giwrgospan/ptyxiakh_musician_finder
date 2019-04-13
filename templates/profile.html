@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated  %}
             <div class="content-section">
                   <div class="media">
                     <img class="rounded-circle account-img" src="{{ user.profile.image.url }}" width="200" height="150"/>
@@ -17,6 +17,9 @@
                         {{ u_form|crispy }}
                         {{ p_form|crispy }}
                     </fieldset>
+
+
+                      <br> <br> <br>
                     <div class="form-group">
                         <button class="btn btn-outline-info" type="submit">Ανανέωση</button>
                     </div>

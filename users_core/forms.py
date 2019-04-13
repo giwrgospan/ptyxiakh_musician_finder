@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile
+from .models import Profile, Song
 
 
 YEARS = [x for x in range(1940, 2019)]
@@ -38,4 +38,10 @@ class ProfileUpdateForm(forms.ModelForm):
         fields = ['image', 'music_category', 'music_nature']
         labels = {'music_category': "Μουσικά Ενδιαφέροντα", 'image': 'Εικόνα Προφίλ',
                   'music_nature': 'Μουσικές Ιδιότητες'}
+
+
+class SongForm(forms.ModelForm):
+    class Meta:
+        model = Song
+        fields = ('composition_title', 'composition')
 

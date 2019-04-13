@@ -1,7 +1,7 @@
 
 from django.urls import path
+from django.views.generic.base import TemplateView
 
-# Από τον current directory βρές το αρχείο views και κάντο import
 from . import views
 
 app_name = 'users_core'

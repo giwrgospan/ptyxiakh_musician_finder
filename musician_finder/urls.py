@@ -23,6 +23,12 @@ from django.conf.urls.static import static
 from users_core import views as user_view
 
 
+extra_urlpatterns = [
+    path('song_list/upload', user_view.upload_song, name='upload_song'),
+
+]
+
+
 urlpatterns = [
 
     path('admin/', admin.site.urls),
@@ -30,8 +36,10 @@ urlpatterns = [
     path('', TemplateView.as_view(template_name='home.html'), name='home'),
     path('user/', include('users_core.urls')),
     path('accounts/', include('django.contrib.auth.urls'), name='accounts'),
-    path('profile/', user_view.profile, name='profile'),
+    path('profile/<int:profile_id>/', user_view.profile, name='profile'),
     path('upload/', user_view.upload, name='upload'),
+    path('<int:user_id>/song_list/', user_view.composition_list, name='song_list'),
+    path('<int:user_id>/song_list/upload', user_view.upload_song, name='upload_song'),
 ]
 
 

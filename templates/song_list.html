@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+    {% csrf_token %}
+    {% for song in user.song_set.all %}
+
+            {{ song.composition_title }}
+
+      <br>
+    {% endfor %}
+
+    <a href="{% url 'upload_song' user.id %}">Upload</a>
+
+{% endif %}
+{% endblock %}
