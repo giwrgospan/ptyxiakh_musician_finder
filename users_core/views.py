@@ -3,7 +3,7 @@ from .forms import SignUpForm
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from .forms import UserUpdateForm, ProfileUpdateForm, SongForm
+from .forms import UserUpdateForm, ProfileUpdateForm, SongForm, LyricsForm
 from django.core.files.storage import FileSystemStorage
 from .models import Profile, User
 
@@ -24,7 +24,7 @@ def signup(request):
 
 
 @login_required
-def profile(request , profile_id):
+def profile(request):
     if request.method == 'POST':
         u_form = UserUpdateForm(request.POST, instance=request.user)
         p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
@@ -59,22 +59,42 @@ def upload(request):
 
 
 @login_required
-def composition_list(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def composition_list(request):
+    user = request.user
     return render(request, 'song_list.html', {'user': user})
 
 
 @login_required
-def upload_song(request ,user_id):
+def upload_song(request):
     if request.method == 'POST':
         form = SongForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
             return redirect('song_list')
     else:
         form = SongForm()
+
     return render(request, 'upload_song.html', {'form': form})
 
 
+@login_required
+def lyrics_list(request):
+    user = request.user
+    return render(request, 'lyrics_list.html', {'user': user})
 
 
+@login_required
+def upload_lyrics(request):
+    if request.method == 'POST':
+        form = LyricsForm(request.POST, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return redirect('lyrics_list')
+    else:
+        form = LyricsForm()
+
+    return render(request, 'upload_lyrics.html', {'form': form})

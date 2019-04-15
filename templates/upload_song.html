@@ -8,8 +8,8 @@
     <form method="POST" enctype="multipart/form-data" >
         {% csrf_token %}
         {{ form.as_p }}
+        <button type="submit">Upload file</button>
 
-         <a class="btn btn-lg btn-success" href="{% url 'song_list' user.id %}" role="button">Upload</a>
     </form>
 
 {% endif %}

@@ -7,11 +7,19 @@
     {% for song in user.song_set.all %}
 
             {{ song.composition_title }}
+            {% if song.composition %}
+                <audio controls>
+                    <source src="{{ song.composition.url }}" type="audio/ogg">
+
+                    Your browser does not support the audio element.
+                </audio>
+            <a href="{{ song.composition.url }}" class="btn btn-primary btn-sm" target="_blank" download>Download</a>
+            {% endif %}
 
       <br>
     {% endfor %}
 
-    <a href="{% url 'upload_song' user.id %}">Upload</a>
+    <a href="{% url 'upload_song' %}">Upload</a>
 
 {% endif %}
 {% endblock %}

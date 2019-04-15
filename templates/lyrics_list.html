@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% if user.is_authenticated %}
+
+    {% csrf_token %}
+    {% for lyrics in user.lyrics_set.all %}
+
+            {{ lyrics.lyrics_title }}
+            {% if lyrics.lyrics %}
+                <a href="{{ lyrics.lyrics.url }}" class="btn btn-primary btn-sm" target="_blank" >See lyrics</a>
+                <a href="{{ lyrics.lyrics.url }}" class="btn btn-primary btn-sm" target="_blank" download>Download lyrics</a>
+            {% endif %}
+
+      <br>
+    {% endfor %}
+
+{% endif %}
+
+ <a href="{% url 'upload_lyrics' %}">Upload</a>
+
+{% endblock %}

@@ -21,8 +21,9 @@
     <a href="{% url 'music_up_down_load:index' %}">Albums</a>
     <br>
     <p><a href="{% url 'logout' %}">logout</a></p>
-    <p><a href="{% url 'profile' user.profile.id %}">profile</a></p>
-    <p><a href="{% url 'song_list' user.id %}">Song list</a></p>
+    <p><a href="{% url 'profile' %}">profile</a></p>
+    <p><a href="{% url 'song_list' %}">Song list</a></p>
+    <p><a href="{% url 'lyrics_list' %}">Lyrics list</a></p>
 
 
 

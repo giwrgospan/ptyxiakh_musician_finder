@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Profile, Song
+from .models import Profile, Song, Lyrics
 
 
 YEARS = [x for x in range(1940, 2019)]
@@ -44,4 +44,10 @@ class SongForm(forms.ModelForm):
     class Meta:
         model = Song
         fields = ('composition_title', 'composition')
+
+
+class LyricsForm(forms.ModelForm):
+    class Meta:
+        model = Lyrics
+        fields = ('lyrics_title', 'lyrics')
 
