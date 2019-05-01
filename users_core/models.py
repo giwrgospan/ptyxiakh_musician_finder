@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from PIL import Image
 from multiselectfield import MultiSelectField
 from django.conf import settings
+import django_filters
 
 
 class Profile(models.Model):
@@ -14,10 +15,10 @@ class Profile(models.Model):
     )
     MUSIC_NATURE = (
         ('Drummer', 'Drummer'),
-        ('Τραγουδιστής', 'Τραγουδιστής'),
-        ('Κιθαρίστας', 'Κιθαρίστας'),
-        ('Μπασίστας', 'Μπασίστας'),
-        ('Στιχουργός', 'Στιχουργός'),
+        ('Songer', 'Songer'),
+        ('Guitarist', 'Guitarist'),
+        ('Bassist', 'Bassist'),
+        ('Lyricist', 'Lyricist '),
     )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')

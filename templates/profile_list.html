@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+  <form method="get">
+    {{ filter.form.as_p }}
+    <button type="submit" name="list">Search</button>
+  </form>
+
+  <ul>
+  {% for profile in filter.qs %}
+    <li>{{ profile.user.username }} - {{ profile.user.first_name }}<a href="{% url 'profile_appearance' profile.id %}">
+      See {{ profile.user.username }}'s profile
+    </a></li>
+  {% endfor %}
+  </ul>
+
+
+{% endblock %}

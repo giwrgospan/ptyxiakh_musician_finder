@@ -36,6 +36,8 @@ urlpatterns = [
     path('song_list/upload', user_view.upload_song, name='upload_song'),
     path('lyrics_list/',user_view.lyrics_list, name='lyrics_list'),
     path('lyrics_list/upload', user_view.upload_lyrics, name='upload_lyrics'),
+    path('search/', user_view.profile_search, name='profile_search'),
+    path('profile/<int:prof_id>', user_view.profile_appearance, name='profile_appearance'),
 ]
 
 

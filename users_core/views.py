@@ -6,6 +6,9 @@ from django.contrib.auth.decorators import login_required
 from .forms import UserUpdateForm, ProfileUpdateForm, SongForm, LyricsForm
 from django.core.files.storage import FileSystemStorage
 from .models import Profile, User
+from django.views import View
+from django.views.generic import ListView
+from .filters import ProfileFilter
 
 
 def signup(request):
@@ -98,3 +101,18 @@ def upload_lyrics(request):
         form = LyricsForm()
 
     return render(request, 'upload_lyrics.html', {'form': form})
+
+
+@login_required
+def profile_search(request):
+    profile_list = Profile.objects.all()
+    profile_filter = ProfileFilter(request.GET, queryset=profile_list)
+    return render(request, 'profile_list.html', {'filter': profile_filter})
+
+
+@login_required
+def profile_appearance(request, prof_id):
+    prof = get_object_or_404(Profile, pk=prof_id)
+    form = SignUpForm()
+    return render(request, 'profile_appearance.html', {'profile': prof, 'form': form})
+
