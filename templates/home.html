@@ -22,8 +22,8 @@
     <br>
     <p><a href="{% url 'logout' %}">logout</a></p>
     <p><a href="{% url 'profile' %}">profile</a></p>
-    <p><a href="{% url 'song_list' %}">Song list</a></p>
-    <p><a href="{% url 'lyrics_list' %}">Lyrics list</a></p>
+    <p><a href="{% url 'song_list' %}">Song list({{ user.song_set.count }})</a></p>
+    <p><a href="{% url 'lyrics_list' %}">Lyrics list({{ user.lyrics_set.count }})</a></p>
 
 
 
