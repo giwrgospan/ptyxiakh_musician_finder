@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django_filters'
 ]
 
+AUTH_USER_MODEL = 'users_core.CustomUser'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
