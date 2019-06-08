@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div style="padding-top:100px" align="center">
+
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <p>Εϊστε σιγουροι ότι θέλετε να διαγράψετε το "{{ song }}" ?</p>
+        <input type="submit" value="Confirm" class="btn btn-warning">
+        <a href="{% url 'song_list' %}" class="btn btn-default">Ακύρωση</a>
+    </form>
+
+</div>
+
+{% endblock %}

@@ -1,26 +1,56 @@
 {% extends 'base.html' %}
-
+{% block title %}Λίστα συνθέσεων{% endblock %}
 {% block content %}
+
 {% if user.is_authenticated %}
+{% csrf_token %}
+<div style="background-color:#101820ff; height:100%; width:100%;  padding-top:80px">
+    <h3 style="color:white;">Λίστα συνθέσεων</h3> <br> <br>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}" style="color:white;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 
-    {% csrf_token %}
     {% for song in user.song_set.all %}
+    <div style=" border: 15px solid #101820ff; ">
+        <div class="row" style=" height:50px; background-color:black;">
 
-            {{ song.composition_title }}
-            {% if song.composition %}
-                <audio controls>
-                    <source src="{{ song.composition.url }}" type="audio/ogg">
-                    <source src="{{ song.composition.url }}"  type="audio/mpeg">
+            <div class="col-lg-1" >
+                <p style="color:white; text-align:center; font-size:20px;">{{ forloop.counter }}</p>
+            </div>
+             <div class="col-lg-11">
+                 <p style="color:white; text-align:left; font-size:20px;">{{ song.composition_title }}</p>
+             </div>
+        </div>
+        <div class="row" style=" background-color:black; ">
+                <div class="col-lg-3" style=" padding-left:120px;">
+                <audio controls >
+                    <source  src="{{ song.composition.url }}" type="audio/ogg">
+                    <source  src="{{ song.composition.url }}"  type="audio/mpeg">
 
                     Your browser does not support the audio element.
                 </audio>
-            <a href="{{ song.composition.url }}" class="btn btn-primary btn-sm" target="_blank" download>Download</a>
-            {% endif %}
+                </div>
+            <div class="col-lg-8">
+                <a href="{{ song.composition.url }}" style="color:white;float:left; padding-left:150px; "  target="_blank" download>
+                    <div class="download"><p class="p_in_box">Κατέβασμα</p></div></a>
+                <a href="{% url 'song_delete' song.id %}" style="color:white;float:left; padding-left:150px; " target="_blank">
+                    <div class="delete"><p class="p_in_box">Διαγραφή</p></div></a>
 
-      <br>
+                <p style="color:white; float:left; padding-left:150px;"  >Δημοσιοποίηση {{ public.is_public }}</p>
+            </div>
+
+        </div>
+     </div>
+
+
     {% endfor %}
 
-    <a href="{% url 'upload_song' %}">Upload</a>
-
+    <div align="center" style="background-color:#101820ff;"><a href="{% url 'upload_song' %}" class="button3">Ανέβασμα αρχείου</a></div>
+</div>
 {% endif %}
+
 {% endblock %}

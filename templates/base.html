@@ -1,18 +1,286 @@
+ {% load static %}
 <!-- templates/base.html -->
-<!DOCTYPE html>
+
 <html>
 <head>
+
   <meta charset="utf-8">
   <title>{% block title %}Django Tutorial{% endblock %}</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+<style>
+
+#navbar{
+
+  width: 100%;
+  height: 70px;
+  background-color:  rgba(    0, 0, 0   , 0.8) ;
+  overflow: hidden;
+  position:fixed;
+  z-index:1
+
+}
+
+.content {
+  padding-top: 0px;
+}
+
+li{
+    list-style:none;
+    display:inline;
+    margin-right:20;
+    color:white;
+    background: none;
+
+}
+
+ul:not([id]) li{
+    color:black;
+    display:list-item;
+}
+
+
+ul#id_music_nature li {
+  display:inline;
+  margin-right:20;
+}
+
+p{
+color:black;
+}
+
+
+
+.li_background_color{
+    background-color:black;
+}
+
+.li_background_color2{
+    background-color:blue;
+}
+
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+
+
+.nav_block{
+
+    display: block;
+    float: left;
+    font-family: sans-serif;
+    font-size: 19px;
+    color: white;
+
+
+    padding-top: 15px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    text-decoration: none;
+    margin-top:5px;
+    margin-left:20px;
+    transition-property: color;
+    transition-duration: 0.3s;
+}
+
+div a:hover{
+
+    color: #ff6400;
+    text-decoration: none;
+}
+
+.username{
+    color: #00008B;
+    text-decoration: none;
+    transition-property: color;
+    transition-duration: 0.3s;
+}
+
+.username:hover{
+
+    color: #ff6400;
+    text-decoration: none;
+}
+
+div a:active {
+  color: #0004ff;
+}
+
+.myButton {
+	-moz-box-shadow: 0px 10px 14px -7px #276873;
+	-webkit-box-shadow: 0px 10px 14px -7px #276873;
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
+	background:-moz-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-webkit-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-o-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:-ms-linear-gradient(top, #599bb3 5%, #408c99 100%);
+	background:linear-gradient(to bottom, #599bb3 5%, #408c99 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#599bb3', endColorstr='#408c99',GradientType=0);
+	background-color:#599bb3;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+}
+.myButton:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
+	background:-moz-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-webkit-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-o-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:-ms-linear-gradient(top, #408c99 5%, #599bb3 100%);
+	background:linear-gradient(to bottom, #408c99 5%, #599bb3 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#408c99', endColorstr='#599bb3',GradientType=0);
+	background-color:#408c99;
+	color: #b3bcc0
+}
+.myButton:active {
+	position:relative;
+	top:1px;
+}
+
+.button3{
+-moz-box-shadow: 0px 10px 14px -7px #276873;
+	-webkit-box-shadow: 0px 10px 14px -7px #276873;
+	box-shadow: 0px 10px 14px -7px #276873;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #599bb3), color-stop(1, #408c99));
+	background:-moz-linear-gradient(top, #000000 5%, #408c99 100%);
+	background:-webkit-linear-gradient(top, #599000000 5%, #408c99 100%);
+	background:-o-linear-gradient(top, #000000 5%, #408c99 100%);
+	background:-ms-linear-gradient(top, #000000 5%, #408c99 100%);
+	background:linear-gradient(to bottom, #000000 5%, #408c99 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#408c99',GradientType=0);
+	background-color:#599bb3;
+	-moz-border-radius:8px;
+	-webkit-border-radius:8px;
+	border-radius:8px;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size:20px;
+	font-weight:bold;
+	padding:13px 32px;
+	text-decoration:none;
+	text-shadow:0px 1px 0px #3d768a;
+	margin-top:20px;
+}
+.button3:hover{
+ 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #408c99), color-stop(1, #599bb3));
+	background:-moz-linear-gradient(top, #000000 5%, #599bb3 100%);
+	background:-webkit-linear-gradient(top, #000000 5%, #599bb3 100%);
+	background:-o-linear-gradient(top, #000000 5%, #599bb3 100%);
+	background:-ms-linear-gradient(top, #000000 5%, #599bb3 100%);
+	background:linear-gradient(to bottom, #000000 5%, #599bb3 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#000000', endColorstr='#599bb3',GradientType=0);
+	background-color:#000000;
+	color: #b3bcc0
+}
+
+.button3:active{
+	position:relative;
+	top:1px;
+}
+
+.anim{
+
+  position: relative;
+  animation: mymove 0.3s;
+  animation-iteration-count: 1;
+}
+
+
+@keyframes mymove {
+ 0% { opacity:0; }
+ 50% { opacity:1; }
+ 100% { opacity:0; }
+}
+
+
+
+#submit_profile{
+color:black;}
+
+.results_p{
+    color:black;
+    font-size:15px;
+    padding-top:5px;
+}
+
+.download{
+    background-color:#00275E;
+    height:30px;
+    width:100px;
+     transition-property: box-shadow;
+    transition-duration: 0.3s;
+    border-radius: 25px;
+}
+
+.download:hover{
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+}
+
+.delete{
+    background-color:#bb000e;
+    height:30px;
+    width:100px;
+    transition-property: box-shadow;
+    transition-duration: 0.3s;
+    border-radius: 25px;
+}
+
+.p_in_box{
+    text-align:center;
+    color:white;
+    font-size:15px;
+    padding-top:3px;
+}
+
+.delete:hover{
+    box-shadow: inset 0 0 100px 100px rgba(255, 255, 255, 0.1);
+}
+
+
+body{
+        }
+</style>
 </head>
 <body>
-<a href="{% url 'home' %}">Home</a>
-  <div align="center">
-    {% block content %}
 
-    {% endblock %}
-  </div>
+        <div id="navbar">
+
+            <a id="logo" href="{% url 'home' %}" style="float:left; margin-right:50px"><img src="{% static 'images/base_logo.jpg' %}" height="80px" width="100px"></a>
+            <a class="nav_block" href="{% url 'profile_search' %}">Αναζήτηση</a>
+            <a class="nav_block" href=" {% url 'profile' %}  ">Προφίλ</a>
+            <a class="nav_block" href=" {% url 'song_list' %} ">Συνθέσεις({{ user.song_set.count }})</a>
+            <a class="nav_block" href=" {% url 'lyrics_list' %}">Στίχοι ({{ user.lyrics_set.count }})</a>
+            <a class="nav_block" style="margin-left:500px; " href="{% url 'logout' %}">Αποσύνδεση</a>
+
+        </div>
+
+
+
+        <div class="content" >
+            {% block content %}
+            {% endblock %}
+        </div>
+
+
 </body>
 </html>

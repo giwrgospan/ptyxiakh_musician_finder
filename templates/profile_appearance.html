@@ -14,12 +14,31 @@
 
                         <legend class="border-bottom mb-4">Στοιχεία προφίλ</legend>
                          <div align="left">
-                             <p style="font-size:160% ">First Name :</p> <p>{{ profile.user.first_name }}</p>
-                             <p style="font-size:160%">Last Name :</p><p>{{ profile.user.last_name }}</p>
-                             <p style="font-size:160%">Email :</p><p>{{ profile.user.email }}</p>
-                             <p style="font-size:160%">Birth Date :</p><td>{{ form.birth_date}}</td>
+                             <p style="font-size:160% ">First Name :</p> <p>{{ user.first_name }}</p>
+                             <p style="font-size:160%">Last Name :</p><p>{{user.last_name }}</p>
+                             <p style="font-size:160%">Email :</p><p>{{ user.email }}</p>
+                             <p style="font-size:160%">Birth Date :</p><td>{{ profile.birth_date}}</td>
+                             <p style="font-size:160%">Music category :</p><p>{{ profile.music_category }}</p>
+                             <p style="font-size:160%">Music nature :</p><p>{{ profile.music_nature }}</p>
+                              <p style="font-size:160%">Songs :</p>
+
+
 
                          </div>
+
+                                {% for song in user.song_set.all %}
+                                    {% if song.is_public == True %}
+                                        <div class="col-lg-2" style="text-align:right; ">
+                                            <p style="color:black; font-size:20px;">{{ song.composition_title }} :</p>
+                                        </div>
+                                        <audio controls>
+                                            <source src="{{ song.composition.url }}" type="audio/ogg">
+                                            <source src="{{ song.composition.url }}"  type="audio/mpeg">
+
+                                        Your browser does not support the audio element.
+                                        </audio>
+                                    {% endif %}
+                                {% endfor %}
 
             </div>
 {% endif %}

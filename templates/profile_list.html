@@ -1,19 +1,324 @@
 {% extends 'base.html' %}
-
+{% block title %}Αναζήτηση μουσικών{% endblock %}
 {% block content %}
 
-  <form method="get">
-    {{ filter.form.as_p }}
-    <button type="submit" name="list">Search</button>
+ <div style="background-color:white; padding-top:70px">
+  <form method="get" id="myForm" onsubmit="inputFuncs();"  >
+      <div class="container-fluid">
+          <div class="row" style="background-color:#00ffaa;">
+              <div class="col-lg-2">
+                  {% if filter.form.music_nature.label == 'Music nature'%}
+                    <p style=" font-size:20px;  padding-top:10px;">Μουσικές ιδιότητες:</p>
+                  {% endif %}
+              </div>
+              <div class="col-lg-9" style="margin-right:0.5px;">
+                  <p style=" font-size:20px;">{{ filter.form.music_nature}}</p>
+              </div>
+            </div>
+      </div>
+           <p style="color:black; font-size:20px;  padding-top:10px;">Μουσικά ακούσματα:</p>
+    <div class="container-fluid">
+        <div class="row" style="background-color:#5D5C61">
+            <div  class="col-lg-1">
+                <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.rock.label }}:</p>
+            </div>
+            <div class="col-lg-11">
+                <p style=" font-size:20px;">{{ filter.form.rock}}</p>
+            </div>
+        </div>
+    </div>
+      <div class="container-fluid">
+                <div class="row" style="background-color:#379683">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.metal.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.metal}}</p>
+                    </div>
+                </div>
+      </div>
+       <div class="container-fluid">
+                <div class="row" style="background-color:#7395AE">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.punk.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.punk}}</p>
+                    </div>
+                </div>
+       </div>
+        <div class="container-fluid">
+                <div class="row" style="background-color:#557a95">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.pop.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.pop}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#B1A296">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.blues.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.blues}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#eccb10">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.jazz.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.jazz}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#9f10ec">
+                    <div  class="col-lg-1">
+                        <p style="font-size:20px; padding-top:10px; " >{{ filter.form.funk.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.funk}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#f53737">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.soul.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style="font-size:20px;">{{ filter.form.soul}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#035096">
+                    <div  class="col-lg-1">
+                        <p style="font-size:20px; padding-top:10px; " >{{ filter.form.electronic.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.electronic}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#05386B">
+                    <div  class="col-lg-1">
+                        <p style="font-size:20px; padding-top:10px; " >{{ filter.form.hiphop_rap.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.hiphop_rap}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#2E1114">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.greek.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.greek}}</p>
+                    </div>
+                </div>
+          </div>
+           <div class="container-fluid">
+                <div class="row" style="background-color:#501B1D">
+                    <div  class="col-lg-1">
+                        <p style=" font-size:20px; padding-top:10px; " >{{ filter.form.other.label }}:</p>
+                    </div>
+                    <div class="col-lg-11">
+                        <p style=" font-size:20px;">{{ filter.form.other}}</p>
+                    </div>
+                </div>
+          </div>
+          <div>
+              {% if filter.form.user__username.label == 'Username'%}
+                <p style="color:black; font-size:20px;">Όνομα χρήστη</p>
+              {% endif %}
+                <p style=" font-size:20px;">{{ filter.form.user__username}}</p>
+          </div>
+
+    <a href="#list" style="color:white"> <input  type="submit"  name="Submit" class="myButton" style="background-color:#408c99;
+	color: black;" value="Αναζήτητση"> </a>
+
   </form>
 
-  <ul>
-  {% for profile in filter.qs %}
-    <li>{{ profile.user.username }} - {{ profile.user.first_name }}<a href="{% url 'profile_appearance' profile.id %}">
-      See {{ profile.user.username }}'s profile
-    </a></li>
-  {% endfor %}
-  </ul>
+        <div id="list"></div>
+
+     <div >
+     {% if submit == 'Αναζήτητση' %}
+       <ul>
+        {% if count == 0 %}
+            <p>Δεν υπάρχουν χρήστες με τους συνδυασμούς που επιλέξατε</p>
+        {% else %}
+           <p>Αριθμός μουσικών προφίλ που βρέθηκαν:{{ profiles }}</p>
+            {% for profile in filter.qs %}
+                <li style="background-color:#8c92ac; margin:10px; height:120px;">
+                    <a href="{% url 'profile_appearance' profile.id %}"><img src="{{ profile.image.url }}" style="float:left; margin-right:50px; margin-top:10px;margin-left:10px;" width="120" height="100"/></a>
+                    <a href="{% url 'profile_appearance' profile.id %}" ><span class="username">{{ profile.user.username }}</span></a>
+                    <p class="results_p" >Μουσικές Ιδιότητες: <span style="color:white">{{ profile.music_nature }}</span></p>
+                    <p style="color:white;" >Επισκευθήτε το <a href="{% url 'profile_appearance' profile.id %}" class="username">προφίλ</a>
+                        του/της <a href="{% url 'profile_appearance' profile.id %}" class="username">{{ profile.user.username }}</a>
+                         για να δείτε τα μουσικά ακούσματα και άλλες λεπτομέριες.
+
+                </li>
+
+            {% endfor %}
+        {% endif %}
+       </ul>
+         </div>
+    {% endif %}
+ </div>
+<script>
+
+     var ul = document.getElementById("id_music_nature");
+     var li = ul.getElementsByTagName("LI");
+
+     var ul_rock = document.getElementById("id_rock");
+     var li_rock = ul_rock.getElementsByTagName("LI");
+
+     var ul_metal = document.getElementById("id_metal");
+     var li_metal = ul_metal.getElementsByTagName("LI");
+
+     var ul_punk = document.getElementById("id_punk");
+     var li_punk = ul_punk.getElementsByTagName("LI");
+
+     var ul_pop = document.getElementById("id_pop");
+     var li_pop = ul_pop.getElementsByTagName("LI");
+
+     var ul_jazz = document.getElementById("id_jazz");
+     var li_jazz = ul_jazz.getElementsByTagName("LI");
+
+     var ul_blues = document.getElementById("id_blues");
+     var li_blues = ul_blues.getElementsByTagName("LI");
+
+     var ul_funk = document.getElementById("id_funk");
+     var li_funk = ul_funk.getElementsByTagName("LI");
+
+     var ul_soul = document.getElementById("id_soul");
+     var li_soul = ul_soul.getElementsByTagName("LI");
+
+     var ul_electronic = document.getElementById("id_electronic");
+     var li_electronic = ul_electronic.getElementsByTagName("LI");
+
+     var ul_hiphop_rap = document.getElementById("id_hiphop_rap");
+     var li_hiphop_rap = ul_hiphop_rap.getElementsByTagName("LI");
+
+     var ul_greek = document.getElementById("id_greek");
+     var li_greek = ul_greek.getElementsByTagName("LI");
+
+     var ul_other = document.getElementById("id_other");
+     var li_other = ul_other.getElementsByTagName("LI");
+
+
+     var i = 0;
+
+     for (i = 0; i < li.length; i++)
+     {
+         li[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+
+     for (i = 0; i < li_rock.length; i++)
+     {
+         li_rock[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_metal.length; i++)
+     {
+         li_metal[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_punk.length; i++)
+     {
+         li_punk[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_pop.length; i++)
+     {
+         li_pop[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_jazz.length; i++)
+     {
+         li_jazz[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_blues.length; i++)
+     {
+         li_blues[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_funk.length; i++)
+     {
+         li_funk[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_soul.length; i++)
+     {
+         li_soul[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_electronic.length; i++)
+     {
+         li_electronic[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_hiphop_rap.length; i++)
+     {
+         li_hiphop_rap[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_greek.length; i++)
+     {
+         li_greek[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_other.length; i++)
+     {
+         li_other[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     function toggle()
+     {
+            this.parentNode.classList.toggle('li_background_color');
+
+     }
+
+    function inputFuncs() {
+        generateReport();
+
+    }
+
+     function generateReport() {
+        window.location.href = '#list';
+
+     }
+</script>
+<script>
+/*
+      if (performance.navigation.type == 1) {
+        location.replace("{% url 'profile_search' %}");
+       }
+*/
+    var inputs = document.getElementsByTagName("input");
+    for(var i = 0; i < inputs.length; i++) {
+    if(inputs[i].type == "checkbox") {
+        if(inputs[i].checked == true){
+            inputs[i].parentNode.classList.add('li_background_color');
+
+         }
+    }
+}
+
+</script>
+
 
 
 {% endblock %}

@@ -14,10 +14,11 @@
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
         {% endfor %}
+
       </p>
-
     {% endfor %}
-
+    {{ b_form.birth_date.label }}<br>
+    {{ b_form.birth_date }}<br><br>
     <button type="submit">Εγγραφή</button>
   </form>
 {% endblock %}

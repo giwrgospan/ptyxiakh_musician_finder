@@ -1,22 +1,49 @@
 {% extends 'base.html' %}
-
+{% block title %}Λίστα στίχων{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
-
     {% csrf_token %}
+<div style="background-color:#f2aa4cff; height:100%; width:100%;  padding-top:80px">
+    <h3 style="color:black;" >Λίστα στίχων</h3> <br> <br>
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li class="{{ message.tags }}" style="color:black;">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
     {% for lyrics in user.lyrics_set.all %}
-
-            {{ lyrics.lyrics_title }}
-            {% if lyrics.lyrics %}
-                <a href="{{ lyrics.lyrics.url }}" class="btn btn-primary btn-sm" target="_blank" >See lyrics</a>
-                <a href="{{ lyrics.lyrics.url }}" class="btn btn-primary btn-sm" target="_blank" download>Download lyrics</a>
-            {% endif %}
-
-      <br>
+    <div style=" border: 15px solid #f2aa4cff; ">
+           <div class="row" style=" height:50px; background-color:black;">
+                <div class="col-lg-1">
+                    <p style="color:white; text-align:center; font-size:20px;">{{ forloop.counter }}</p>
+                </div>
+                <div class="col-lg-11">
+                    <p style="color:white; text-align:left; font-size:20px;"> {{ lyrics.lyrics_title }}</p>
+                </div>
+            </div>
+           <div class="row" style=" background-color:black; ">
+                <div class="col-lg-3" style=" padding-left:120px;">
+                    <a href="{{ lyrics.lyrics.url }}" class="btn btn-primary btn-sm" target="_blank" >Δες τους στίχους</a>
+                </div>
+                <div class="col-lg-8">
+                    <a href="{{ lyrics.lyrics.url }}" style="color:white;float:left; padding-left:150px;" target="_blank" download>
+                        <div class="download"><p class="p_in_box">Κατέβασμα</p></div></a>
+                    <a href="{% url 'lyric_delete' lyrics.id %}" style="color:white;float:left; padding-left:150px; " target="_blank">
+                        <div class="delete"><p class="p_in_box">Διαγραφή</p></div></a>
+                    <p style="color:white; float:left; padding-left:150px;"  >Δημοσιοποίηση {{ public.is_public }}</p>
+                </div>
+           </div>
+    </div>
     {% endfor %}
 
+    <div align="center" style="background-color:#f2aa4cff;">
+        <a href="{% url 'upload_lyrics' %}" class="button3" >Ανέβασμα αρχείου</a></div>
+
+</div>
 {% endif %}
 
- <a href="{% url 'upload_lyrics' %}">Upload</a>
+
 
 {% endblock %}
