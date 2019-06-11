@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
-{% block title %}Λίστα στίχων{% endblock %}
+{% block title %}Στίχοι μου{% endblock %}
 {% block content %}
 {% if user.is_authenticated %}
     {% csrf_token %}
 <div style="background-color:#f2aa4cff; height:100%; width:100%;  padding-top:80px">
-    <h3 style="color:black;" >Λίστα στίχων</h3> <br> <br>
+    <h3 style="color:black; padding:25px;" >Στίχοι μου: ({{ user.lyrics_set.count }})</h3> <br> <br>
     {% if messages %}
         <ul class="messages">
             {% for message in messages %}
@@ -41,6 +41,12 @@
     <div align="center" style="background-color:#f2aa4cff;">
         <a href="{% url 'upload_lyrics' %}" class="button3" >Ανέβασμα αρχείου</a></div>
 
+</div>
+
+{% else %}
+<div align="center" style="padding-top:250px;">
+    <p>Δεν είστε συνδεδεμένοι. Πατήστε στον παρακάτω σύνδεσμο για να συνδεθείτε</p>
+    <a href="{% url 'login' %}">Σύνδεση</a>
 </div>
 {% endif %}
 

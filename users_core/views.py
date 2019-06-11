@@ -37,7 +37,6 @@ def profile(request):
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
-            messages.success(request, f'Ο λογαριασμός σας ανανεώθηκε!')
             return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
@@ -125,7 +124,7 @@ def profile_appearance(request, prof_id):
     prof = get_object_or_404(Profile, pk=prof_id)
     userp = prof.user
     form = SignUpForm()
-    return render(request, 'profile_appearance.html', {'profile': prof, 'form': form, 'user': userp} )
+    return render(request, 'profile_appearance.html', {'profile': prof, 'form': form} )
 
 
 @login_required
@@ -150,3 +149,14 @@ def lyric_delete(request, lyric_id):
         return redirect('lyrics_list')
 
     return render(request, 'lyric_delete.html', {'lyric': lyric})
+
+@login_required
+def other_composition_list(request, prof_id):
+    prof = get_object_or_404(Profile, pk=prof_id)
+    return render(request, 'other_song_list.html', {'profile': prof})
+
+@login_required
+def other_lyrics_list(request, prof_id):
+    prof = get_object_or_404(Profile, pk=prof_id)
+    return render(request, 'other_lyrics_list.html', {'profile': prof})
+

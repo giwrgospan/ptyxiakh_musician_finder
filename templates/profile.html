@@ -1,32 +1,81 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
-{% block title %}Προφίλ{% endblock %}
+{% block title %}Το Προφίλ μου{% endblock %}
 {% block content %}
 {% if user.is_authenticated  %}
-<div style="padding-top:70px; background-color:#101820ff;">
-            <div class="container-fluid" style="height:200px; background-image: linear-gradient(rgb( 40,40,40), rgb( 0, 0, 0));">
+<div style="padding-top:70px;">
+    <div style="background-image: linear-gradient(rgb( 40,40,40), rgb( 0, 0, 0));">
+            <div class="container-fluid" style="height:200px; ">
                 <div class="row">
                     <div class="col-lg-2" style="padding:25px;">
                         <img class="w3-round"  src="{{ user.profile.image.url }}" width="200" height="150"/>
                     </div>
-                    <div class="col-lg-4" style="padding-left:50px;" >
+                    <div class="col-lg-10" style="padding-left:50px;" >
                         <p style="color:white; padding-top:30px; font-size:30px;">{{ user.username }}</p>
                         <p style="color:white;  font-size:20px;font-family: Times,Times New Roman, serif">{{ user.email }}</p>
                         <p style="color:white;  font-size:20px;">{{ user.first_name }} {{ user.last_name }}</p>
-                    </div>
-                    <div class="col-lg-6" style="padding-left:50px;" >
-                        <p id="music" style=" color:white;"></p>
 
                     </div>
+
                 </div>
             </div>
-               <div style="background-color:#101820ff;">
-                  <form method="POST" enctype="multipart/form-data">
+                    <div >
+                          <p style="padding:25px; font-size:25px; color:#40E0D0;">Μουσικές μου ιδιότητες:<br>
+                            <span id="music_n1" style="font-size:20px; color:white;">
+                                {{ user.profile.music_nature }}
+                            </span></p>
+                        <p style="padding:25px; margin-bottom:0px; font-size:25px; color: red ;">Μουσικά μου ακούσματα:<br>
+                            <span id="music1" style="font-size:20px; color:white;">
+                                {% if user.profile.rock %}
+                                <span style="color:red;">Rock:</span> {{ user.profile.rock }}<br>
+                                {% endif %}
+                                {% if user.profile.metal %}
+                                <span style="color:red;">Metal:</span> {{ user.profile.metal }}<br>
+                                {% endif %}
+                                {% if user.profile.punk %}
+                                <span style="color:red;">Punk:</span> {{ user.profile.punk }}<br>
+                                {% endif %}
+                                {% if user.profile.pop %}
+                                <span style="color:red;">Pop:</span> {{ user.profile.pop }}<br>
+                                {% endif %}
+                                {% if user.profile.blues %}
+                                <span style="color:red;">Blues:</span> {{ user.profile.blues }}<br>
+                                {% endif %}
+                                {% if user.profile.jazz %}
+                                <span style="color:red;">Jazz:</span> {{ user.profile.jazz }}<br>
+                                {% endif %}
+                                {% if user.profile.funk %}
+                                <span style="color:red;">Funk:</span> {{ user.profile.funk }}<br>
+                                {% endif %}
+                                {% if user.profile.soul %}
+                                <span style="color:red;">Soul:</span> {{ user.profile.soul }}<br>
+                                {% endif %}
+                                {% if user.profile.electronic %}
+                                <span style="color:red;">Electronic:</span> {{ user.profile.electronic }}<br>
+                                {% endif %}
+                                {% if user.profile.hiphop_rap %}
+                                <span style="color:red;">Hiphop/Rap:</span> {{ user.profile.hiphop_rap }}<br>
+                                {% endif %}
+                                {% if user.profile.greek %}
+                                <span style="color:red;">Greek:</span> {{ user.profile.greek }}<br>
+                                {% endif %}
+                                {% if user.profile.other %}
+                                <span style="color:red;">Other:</span> {{ user.profile.other }}<br>
+                                {% endif %}
+                            </span></p>
+                    </div>
+        </div>
+               <div style="background-color:#161515;">
+                  <form method="POST" enctype="multipart/form-data" style="margin-bottom:0px;">
                     {% csrf_token %}
-                    <fieldset class="form-group">
+                      <p style="color:white; padding-top:30px; padding-left:25px; font-family:cursive; font-size:30px;">Επεξεργασία στοιχείων προφίλ</p>
+                      <br><br><br>
+                    <fieldset class="form-group" style="padding-left:25px;">
+                        <p style="color:white; font-family:cursive; font-size:25px;">Προσωπικά στοιχεία</p><br>
                         {% for field in u_form %}
 
-                            <p style="color:white; font-size:20px;">{{ field.label}}</p>
+
+                            <p  style="color:white;padding-top:20px; font-size:20px;">{{ field.label}}</p>
                             {{ field }}<br>
                             {% if  field.label == 'Όνομα Χρήστη'%}
                                 <small style="color: grey">Απαιτείται. 150 χαρακτήρες ή λιγότεροι</small>
@@ -45,22 +94,36 @@
                             {% endif %}
 
                         {% endfor %}
+
+                         <br><br><br>
                         {% for field in p_form %}
+                            {% if  field.label == 'Εικόνα Προφίλ'%}
+                                <p style="color:white; padding-top:20px; font-size:20px;">{{ field.label}}</p>
+                                <p style="color: white;">{{ field }}</p><br><br>
+                                <div class="form-group">
+                                    <button class="myButton" type="submit">Ανανέωση</button><br> <br>
+                                 </div>
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
+                            {% else %}
+                             {% if  field.label == 'Μουσικές Ιδιότητες'%}
+                                <br><br><br>
+                                <p style="color:yellow; font-family:cursive; font-size:25px;">Μουσικά Στοιχεία</p>
+                                <br><br>
+                             {% endif %}
+                                <p style="color:white; font-size:20px;">{{ field.label}}</p>
+                                {{ field }}<br>
 
-                            <p style="color:white; font-size:20px;">{{ field.label}}</p>
-                            {{ field }}<br>
-                            {% if field.help_text %}
-                                <small style="color: white">{{ field.help_text }}</small>
+                                {% for error in field.errors %}
+                                    <p style="color: red">{{ error }}</p>
+                                {% endfor %}
                             {% endif %}
-                            {% for error in field.errors %}
-                                <p style="color: red">{{ error }}</p>
-                            {% endfor %}
-
                         {% endfor %}
                     </fieldset>
                       <br>
-                    <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit">Ανανέωση</button><br> <br>
+                    <div class="form-group" align="center">
+                        <button class="myButton" type="submit">Ανανέωση</button><br> <br>
                     </div>
                       <br> <br>
                 </form>
@@ -68,16 +131,142 @@
 </div>
 
 <script>
+
+     var ul = document.getElementById("id_music_nature");
+     var li = ul.getElementsByTagName("LI");
+
+     var ul_rock = document.getElementById("id_rock");
+     var li_rock = ul_rock.getElementsByTagName("LI");
+
+     var ul_metal = document.getElementById("id_metal");
+     var li_metal = ul_metal.getElementsByTagName("LI");
+
+     var ul_punk = document.getElementById("id_punk");
+     var li_punk = ul_punk.getElementsByTagName("LI");
+
+     var ul_pop = document.getElementById("id_pop");
+     var li_pop = ul_pop.getElementsByTagName("LI");
+
+     var ul_jazz = document.getElementById("id_jazz");
+     var li_jazz = ul_jazz.getElementsByTagName("LI");
+
+     var ul_blues = document.getElementById("id_blues");
+     var li_blues = ul_blues.getElementsByTagName("LI");
+
+     var ul_funk = document.getElementById("id_funk");
+     var li_funk = ul_funk.getElementsByTagName("LI");
+
+     var ul_soul = document.getElementById("id_soul");
+     var li_soul = ul_soul.getElementsByTagName("LI");
+
+     var ul_electronic = document.getElementById("id_electronic");
+     var li_electronic = ul_electronic.getElementsByTagName("LI");
+
+     var ul_hiphop_rap = document.getElementById("id_hiphop_rap");
+     var li_hiphop_rap = ul_hiphop_rap.getElementsByTagName("LI");
+
+     var ul_greek = document.getElementById("id_greek");
+     var li_greek = ul_greek.getElementsByTagName("LI");
+
+     var ul_other = document.getElementById("id_other");
+     var li_other = ul_other.getElementsByTagName("LI");
+
+
+     var i = 0;
+
+     for (i = 0; i < li.length; i++)
+     {
+         li[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+
+     for (i = 0; i < li_rock.length; i++)
+     {
+         li_rock[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_metal.length; i++)
+     {
+         li_metal[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_punk.length; i++)
+     {
+         li_punk[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_pop.length; i++)
+     {
+         li_pop[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_jazz.length; i++)
+     {
+         li_jazz[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_blues.length; i++)
+     {
+         li_blues[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_funk.length; i++)
+     {
+         li_funk[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_soul.length; i++)
+     {
+         li_soul[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_electronic.length; i++)
+     {
+         li_electronic[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_hiphop_rap.length; i++)
+     {
+         li_hiphop_rap[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_greek.length; i++)
+     {
+         li_greek[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     for (i = 0; i < li_other.length; i++)
+     {
+         li_other[i].children[0].children[0].addEventListener("click", toggle);
+     }
+
+     function toggle()
+     {
+            this.parentNode.classList.toggle('li_background_color2');
+
+     }
+</script>
+
+<script>
+
     var inputs = document.getElementsByTagName("input");
-    var x = new Array("Music:");
+    var x = new Array();
+    var y = new Array();
     for(var i = 0; i < inputs.length; i++) {
     if(inputs[i].type == "checkbox") {
         if(inputs[i].checked == true){
-            x.push(inputs[i].value);
-         }
+            inputs[i].parentNode.classList.add('li_background_color2');
+            if(inputs[i].parentNode.parentNode.parentNode.id == "id_music_nature"){
+                y.push(inputs[i].value);
+            }else{
+                x.push(inputs[i].value);
+            }
+
+        }
     }
 }
-document.getElementById("music").innerHTML = x;
+document.getElementById("music").innerHTML = x.join(", ");
+document.getElementById("music_n").innerHTML = y.join(", ");
 
 </script>
 {%else%}

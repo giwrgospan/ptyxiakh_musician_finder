@@ -1,46 +1,84 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% block title %}{{ profile.user.username }}{% endblock %}
 {% block content %}
 {% if profile %}
-            <div class="content-section">
-                  <div class="media">
-                    <img class="rounded-circle account-img" src="{{ profile.image.url }}" width="200" height="150"/>
-                    <div class="media-body">
-                      <h2 class="account-heading">{{ profile.user.username }}</h2>
-                      <p class="text-secondary">{{ profile.user.email }}</p>
+<div style="padding-top:70px;">
+    <div style="background-image: linear-gradient(rgb( 40,40,40), rgb( 0, 0, 0));">
+        <div class="container-fluid" style="height:200px; ">
+                <div class="row">
+                    <div class="col-lg-2" style="padding:25px;">
+                        <img class="w3-round"  src="{{ profile.image.url }}" width="200" height="150"/>
                     </div>
-                  </div>
+                    <div class="col-lg-10" style="padding-left:50px;" >
+                        <p style="color:white; padding-top:30px; font-size:30px;">{{ profile.user.username }}</p>
+                        <p style="color:white;  font-size:20px;font-family: Times,Times New Roman, serif">{{ profile.user.email }}</p>
+                        <p style="color:white;  font-size:20px;">{{ profile.user.first_name }} {{ profile.user.last_name }}</p>
+                        <p style="color:white">{{ profile.id }}</p>
+                    </div>
+                </div>
+        </div>
+            <div>
+                <p style="padding:25px; font-size:25px; color:#40E0D0;">Μουσικές ιδιότητες:<br>
+                    <span id="music_n" style="font-size:20px; color:white;">{{ profile.music_nature }}</span></p>
 
+                        <p style="padding:25px; margin-bottom:0px; font-size:25px; color: red ;">Μουσικά ακούσματα:<br>
+                            <span id="music" style="font-size:20px; color:white;">
+                                {% if profile.rock %}
+                                <span style="color:red; ">Rock:</span> {{ profile.rock }}<br>
+                                {% endif %}
+                                {% if profile.metal %}
+                                <span style="color:red;">Metal:</span> {{ profile.metal }}<br>
+                                {% endif %}
+                                {% if profile.punk %}
+                                <span style="color:red;">Punk:</span> {{ profile.punk }}<br>
+                                {% endif %}
+                                {% if profile.pop %}
+                                <span style="color:red;">Pop:</span> {{ profile.pop }}<br>
+                                {% endif %}
+                                {% if profile.blues %}
+                                <span style="color:red;">Blues:</span> {{ profile.blues }}<br>
+                                {% endif %}
+                                {% if profile.jazz %}
+                                <span style="color:red;">Jazz:</span> {{profile.jazz }}<br>
+                                {% endif %}
+                                {% if profile.funk %}
+                                <span style="color:red;">Funk:</span> {{ profile.funk }}<br>
+                                {% endif %}
+                                {% if profile.soul %}
+                                <span style="color:red;">Soul:</span> {{ profile.soul }}<br>
+                                {% endif %}
+                                {% if profile.electronic %}
+                                <span style="color:red;">Electronic:</span> {{ profile.electronic }}<br>
+                                {% endif %}
+                                {% if profile.hiphop_rap %}
+                                <span style="color:red;">Hiphop/Rap:</span> {{ profile.hiphop_rap }}<br>
+                                {% endif %}
+                                {% if profile.greek %}
+                                <span style="color:red;">Greek:</span> {{ profile.greek }}<br>
+                                {% endif %}
+                                {% if profile.other %}
+                                <span style="color:red;">Other:</span> {{ profile.other }}<br>
+                                {% endif %}
+                            </span></p>
+            </div>
+    </div>
+            <div style="background-color:#161515;">
+                <p style="color:white; padding-top:30px; padding-left:25px; font-family:cursive; font-size:30px;">Στοιχεία του προφίλ</p>
+                         <div  style="padding-left:25px;">
+                             <p style="color:white; padding-top:20px;  font-size:20px; ">Όνομα : {{ profile.user.first_name }}</p>
+                             <p style="color:white; padding-top:20px; font-size:20px;">Επίθετο : {{profile.user.last_name }}</p>
+                             <p style="color:white; padding-top:20px;  font-size:20px;">Email : {{ profile.user.email }}</p>
+                             <p style="color:white; padding-top:20px;  font-size:20px;">Ημερομηνία Γέννησης: <td>{{ profile.birth_date}}</td></p><br>
+                             <a href="{% url 'other_song_list' profile.id %}" style="font-family:cursive; font-size:30px; color:#RRGGBB; padding-top:20px; ">Συνθέσεις: ({{ profile.user.song_set.count }})</a><br><br>
 
-                        <legend class="border-bottom mb-4">Στοιχεία προφίλ</legend>
-                         <div align="left">
-                             <p style="font-size:160% ">First Name :</p> <p>{{ user.first_name }}</p>
-                             <p style="font-size:160%">Last Name :</p><p>{{user.last_name }}</p>
-                             <p style="font-size:160%">Email :</p><p>{{ user.email }}</p>
-                             <p style="font-size:160%">Birth Date :</p><td>{{ profile.birth_date}}</td>
-                             <p style="font-size:160%">Music category :</p><p>{{ profile.music_category }}</p>
-                             <p style="font-size:160%">Music nature :</p><p>{{ profile.music_nature }}</p>
-                              <p style="font-size:160%">Songs :</p>
+                             <a href="{% url 'other_lyrics_list' profile.id %}" style="font-family:cursive; font-size:30px; color:#00FF00; padding-top:20px; margin-bottom:0px;">Στίχοι: ({{ profile.user.lyrics_set.count }})</a>
 
-
-
-                         </div>
-
-                                {% for song in user.song_set.all %}
-                                    {% if song.is_public == True %}
-                                        <div class="col-lg-2" style="text-align:right; ">
-                                            <p style="color:black; font-size:20px;">{{ song.composition_title }} :</p>
-                                        </div>
-                                        <audio controls>
-                                            <source src="{{ song.composition.url }}" type="audio/ogg">
-                                            <source src="{{ song.composition.url }}"  type="audio/mpeg">
-
-                                        Your browser does not support the audio element.
-                                        </audio>
-                                    {% endif %}
-                                {% endfor %}
+                          </div>
 
             </div>
+</div>
 {% endif %}
+
 
 {% endblock %}

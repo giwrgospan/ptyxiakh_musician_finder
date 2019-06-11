@@ -1,16 +1,31 @@
-{% extends 'base.html' %}
 
+{% extends 'base.html' %}
+{% block title %}Εγγραφή{% endblock %}
 {% block content %}
-  <h2>Κάνε εγγραφή στο Musician Finder!</h2>
-  <form method="post">
+<div align="center" style="padding-top:100px; background-image: linear-gradient(to right, #434343 0%, black 100%);">
+  <h2 style="color:white;">Κάνε εγγραφή στο Musician Finder!</h2><br><br>
+  <form method="post" style="margin-bottom:0px;">
     {% csrf_token %}
     {% for field in form %}
-      <p>
+      <p style="color:white;">
         {{ field.label}}<br>
         {{ field }}<br>
-        {% if field.help_text %}
-          <small style="color: grey">{{ field.help_text }}</small>
+        {% if  field.label == 'Όνομα Χρήστη'%}
+          <small style="color: white;">Απαιτείται. 150 χαρακτήρες ή λιγότεροι</small>
         {% endif %}
+        {% if  field.label == 'Όνομα'%}
+          <small style="color: white;">Προαιρετικά</small>
+        {% endif %}
+        {% if  field.label == 'Επίθετο'%}
+          <small style="color: white;"></small>
+        {% endif %}
+        {% if  field.label == 'Email'%}
+          <small style="color: white;">Απαιτείται. Εισάγετε μια έγκυρη διέυθηνση email(πχ someone@mail.com)</small>
+        {% endif %}
+        {% if  field.label == 'Επίθετο'%}
+          <small style="color: white;">Προαιρετικά</small>
+        {% endif %}
+
         {% for error in field.errors %}
           <p style="color: red">{{ error }}</p>
         {% endfor %}
@@ -18,7 +33,14 @@
       </p>
     {% endfor %}
     {{ b_form.birth_date.label }}<br>
-    {{ b_form.birth_date }}<br><br>
-    <button type="submit">Εγγραφή</button>
+    {{ b_form.birth_date }}<br>
+
+    <div class="button_cont" align="center">
+        <button type="submit" class="button4" style="margin-bottom:50px;">Εγγραφή</button></a>
+    </div>
   </form>
-{% endblock %}
+</div>
+<script>
+  document.getElementById("navbar").style.visibility = "hidden";
+</script>
+{% endblock%}

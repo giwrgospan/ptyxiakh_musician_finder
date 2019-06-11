@@ -40,7 +40,9 @@ urlpatterns = [
     path('profile/<int:prof_id>', user_view.profile_appearance, name='profile_appearance'),
     path('messages/', include('postman.urls')),
     path('song_delete/<int:song_id>', user_view.song_delete, name='song_delete'),
-    path('lyric_delete/<int:lyric_id>',  user_view.lyric_delete, name='lyric_delete')
+    path('lyric_delete/<int:lyric_id>',  user_view.lyric_delete, name='lyric_delete'),
+    path('song_list/<int:prof_id>', user_view.other_composition_list, name='other_song_list'),
+    path('lyrics_list/<int:prof_id>', user_view.other_lyrics_list, name='other_lyrics_list'),
 
 
 ]

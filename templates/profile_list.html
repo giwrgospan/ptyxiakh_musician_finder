@@ -5,7 +5,7 @@
  <div style="background-color:white; padding-top:70px">
   <form method="get" id="myForm" onsubmit="inputFuncs();"  >
       <div class="container-fluid">
-          <div class="row" style="background-color:#00ffaa;">
+          <div class="row" style="background-color: #002366 ;">
               <div class="col-lg-2">
                   {% if filter.form.music_nature.label == 'Music nature'%}
                     <p style=" font-size:20px;  padding-top:10px;">Μουσικές ιδιότητες:</p>
@@ -153,11 +153,15 @@
 
      <div >
      {% if submit == 'Αναζήτητση' %}
-       <ul>
+
         {% if count == 0 %}
             <p>Δεν υπάρχουν χρήστες με τους συνδυασμούς που επιλέξατε</p>
         {% else %}
+            <p>Αποτελέσματα για:</p>
+             <p>Μουσικές ιδιότητες: <span id="music_n"></span></p>
+             <p>Μουσικά ακούσματα: <span id="music"></span></p>
            <p>Αριθμός μουσικών προφίλ που βρέθηκαν:{{ profiles }}</p>
+         <ul>
             {% for profile in filter.qs %}
                 <li style="background-color:#8c92ac; margin:10px; height:120px;">
                     <a href="{% url 'profile_appearance' profile.id %}"><img src="{{ profile.image.url }}" style="float:left; margin-right:50px; margin-top:10px;margin-left:10px;" width="120" height="100"/></a>
@@ -287,7 +291,7 @@
 
      function toggle()
      {
-            this.parentNode.classList.toggle('li_background_color');
+            this.parentNode.parentNode.classList.toggle('li_background_color');
 
      }
 
@@ -308,15 +312,23 @@
        }
 */
     var inputs = document.getElementsByTagName("input");
+     var x = new Array();
+    var y = new Array();
     for(var i = 0; i < inputs.length; i++) {
     if(inputs[i].type == "checkbox") {
         if(inputs[i].checked == true){
-            inputs[i].parentNode.classList.add('li_background_color');
-
+            inputs[i].parentNode.parentNode.classList.add('li_background_color');
+            if(inputs[i].parentNode.parentNode.parentNode.id == "id_music_nature"){
+                y.push(inputs[i].value);
+            }else{
+                x.push(inputs[i].value);
+            }
          }
     }
 }
 
+document.getElementById("music").innerHTML = x.join(", ");
+document.getElementById("music_n").innerHTML = y.join(", ");
 </script>
 
 

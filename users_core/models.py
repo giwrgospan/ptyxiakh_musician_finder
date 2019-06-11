@@ -96,7 +96,7 @@ class Profile(models.Model):
         ('Techno', 'Techno'),
         ('Electro', 'Electro'),
         ('Dubstep', 'Dubstep'),
-        ('Drum % Bass', 'Drum % Bass'),
+        ('Drum % Bass', 'Drum & Bass'),
         ('Trance', 'Trance'),
         ('Dub', 'Dub'),
         ('Vaporwave', 'Vaporwave'),

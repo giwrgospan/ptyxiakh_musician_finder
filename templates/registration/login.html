@@ -1,16 +1,40 @@
 {% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+{% load static %}
+{% block content %}
+<div style="height: 100%; background: linear-gradient(to bottom, #323232 0%, #3F3F3F 40%, #1C1C1C 150%), linear-gradient(to top, rgba(255,255,255,0.40) 0%, rgba(0,0,0,0.25) 200%);
+ background-blend-mode: multiply;">
+    <div align="center" style="padding-top:100px;">
+        <form method="post"  >
+            <h4 style="color:white">Καλώς ήλθατε στην εφαρμογή</h4> <h3 style="color:red">Musician Finder!</h3>
+            <h4 style="color:white">Συμπληρώστε τα παρακάτω στοιχεία για να συνδεθείτε</h4><br><br>
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="button4">Σύνδεση</button> <br><br><br>
+            <a href="{% url 'users_core:signup' %}"  >Δεν έχετε λογαριασμό? Πατήστε κλικ εδώ για να κάνετε εγγραφή!</a>
+        </form>
+        <p id="labels" ></p>
+    </div>
+</div>
+<script>
+    var label = document.getElementsByTagName("label");
+    var x = new Array();
+    for(var i = 0; i < label.length; i++) {
+            if(label[i].htmlFor == 'id_username' ){
+                label[i].innerHTML = "Όνομα χρήστη:";
+                label[i].parentNode.style.paddingLeft = "18px";
+                label[i].style.color = "white";
 
+            }else{
+                label[i].innerHTML = "Κωδικός πρόσβασης: "
+                label[i].parentNode.style.paddingRight = "18px";
+                label[i].style.color = "white";
 
-    {% block content %}
-    <form method="post">
-        <h4>Καλώς ήλθατε στην εφαρμογή musician finder!</h4>
-        <h4>  Συμπληρώστε τα παρακάτω στοιχεία για να συνδεθείτε</h4>
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Σύνδεση</button> <br><br><br>
-        <a href="{% url 'users_core:signup' %}">Δεν έχετε λογαριασμό? Κάντε κλικ εδώ για να κάνετε εγγραφή!</a>
+            }
 
+        }
+     document.getElementById("labels").innerHTML = x.join(", ");
+      document.getElementById("navbar").style.visibility = "hidden";
+</script>
 
-    </form>
-
-    {% endblock %}
+{% endblock %}

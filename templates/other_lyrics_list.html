@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Στίχοι του/της {{ profile.user.username }}{% endblock %}
+{% block content %}
+{% if profile %}
+<div style="background-color:#f2aa4cff; height:100%; width:100%;  padding-top:80px">
+
+    <h3 style="color:black; padding-left:25px; padding-top:25px; padding-bottom: 70px; " >Στίχοι του/της {{ profile.user.username }}: ({{ profile.user.lyrics_set.count }})</h3>
+    {% for lyrics in profile.user.lyrics_set.all %}
+
+        <div style=" border: 15px solid #f2aa4cff; ">
+        <div class="row" style=" height:50px; background-color:black;">
+            <div class="col-lg-1" >
+                <p style="color:white; text-align:center; font-size:20px;">{{ forloop.counter }}</p>
+            </div>
+             <div class="col-lg-11">
+                 <p style="color:white; text-align:left; font-size:20px;">{{ lyrics.lyrics_title }}</p>
+             </div>
+        </div>
+        <div class="row" style=" background-color:black; ">
+                <div class="col-md-3" style=" padding-left:120px; ">
+                    <div style="padding-bottom:9px;">
+                    <a href="{{ lyrics.lyrics.url }}" class="btn btn-primary btn-sm" target="_blank" >Δες τους στίχους</a>
+                        </div>
+                </div>
+            <div class="col-lg-8">
+                <a href="{{ lyrics.lyrics.url }}" style="color:white;float:left; padding-left:150px;" target="_blank" download>
+                        <div class="download"><p class="p_in_box">Κατέβασμα</p></div></a>
+            </div>
+
+        </div>
+     </div>
+
+    {% endfor %}
+
+
+</div>
+
+{% endif %}
+
+{% endblock %}

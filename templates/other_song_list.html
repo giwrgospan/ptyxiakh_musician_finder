@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}Συνθέσεις του/της {{ profile.user.username }}{% endblock %}
+{% block content %}
+{% if profile %}
+<div style="padding-top:80px; background-color:#101820ff; height:100%; width:100%;">
+    <div style="background-color:#101820ff;">
+    <h3 style="color:white; padding-left:25px; padding-top:25px; padding-bottom: 70px;" >Συνθέσεις του/της {{ profile.user.username }}: ({{ profile.user.song_set.count }})</h3>
+    {% for song in profile.user.song_set.all %}
+        {% if song.is_public == True %}
+        <div style=" border: 15px solid #101820ff; ">
+        <div class="row" style=" height:50px; background-color:black;">
+
+            <div class="col-lg-1" >
+                <p style="color:white; text-align:center; font-size:20px;">{{ forloop.counter }}</p>
+            </div>
+             <div class="col-lg-11">
+                 <p style="color:white; text-align:left; font-size:20px;">{{ song.composition_title }}</p>
+             </div>
+        </div>
+        <div class="row" style=" background-color:black; ">
+                <div class="col-md-3" style=" padding-left:120px;">
+                <audio controls >
+                    <source  src="{{ song.composition.url }}" type="audio/ogg">
+                    <source  src="{{ song.composition.url }}"  type="audio/mpeg">
+
+                    Your browser does not support the audio element.
+                </audio>
+                </div>
+            <div class="col-lg-8">
+                <a href="{{ song.composition.url }}" style="color:white;float:left; padding-left:150px; "  target="_blank" download>
+                    <div class="download"><p class="p_in_box">Κατέβασμα</p></div></a>
+            </div>
+
+        </div>
+     </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+
+</div>
+
+{% endif %}
+
+{% endblock %}
